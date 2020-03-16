@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'fileutils'
 
 def iterate_on(what)
   sink_pid = spawn "./start-test-server.sh"
@@ -18,6 +19,9 @@ def iterate_on(what)
   system "./dstatctl.sh", "stop"
   system "pkill", "-f", what
   Process.kill("TERM", sink_pid)
+
+  Process.wait sink_pid rescue nil
+  FileUtils.cp "/tmp/tcp_test_server_summary.json", "tcp_test_server_summary-#{what}.json"
 
   sleep 1
 end

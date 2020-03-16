@@ -1,6 +1,6 @@
 /target
 
-*.log
-*.txt
-*.csv
-*.json
+/*.log
+/*.txt
+/*.csv
+/*.json

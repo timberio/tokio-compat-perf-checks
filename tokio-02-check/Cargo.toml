@@ -1,0 +1,9 @@
+[package]
+name = "tokio-02-check"
+version = "0.1.0"
+authors = ["MOZGIII <mike-n@narod.ru>"]
+edition = "2018"
+
+[dependencies]
+common = { path = "../common", version = "0.1" }
+tokio02 = { package = "tokio", version = "0.2", features = ["rt-threaded", "tcp", "io-util"] }

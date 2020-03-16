@@ -1,0 +1,11 @@
+[package]
+name = "tokio-compat-check"
+version = "0.1.0"
+authors = ["MOZGIII <mike-n@narod.ru>"]
+edition = "2018"
+
+[dependencies]
+common = { path = "../common", version = "0.1" }
+futures01 = { package = "futures", version = "0.1" }
+tokio01 = { package = "tokio", version = "0.1" }
+tokio-compat = { version = "0.1" }

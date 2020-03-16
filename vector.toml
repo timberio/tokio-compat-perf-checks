@@ -1,0 +1,11 @@
+[sources.in]
+  type    = "socket"
+  mode    = "tcp"
+  address = "0.0.0.0:1521"
+
+[sinks.out]
+  inputs   = ["in"]
+  type     = "socket"
+  mode     = "tcp"
+  address  = "127.0.0.1:1522"
+  encoding = "text"

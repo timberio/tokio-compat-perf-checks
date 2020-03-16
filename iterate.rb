@@ -5,6 +5,8 @@ def iterate_on(what)
   sleep 1
   subject_pid = spawn "./strace-run.sh", what
   sleep 1
+  system "./dstatctl.sh", "start", what
+  sleep 1
   source_pid = spawn "./send-test-data.sh"
 
   Process.wait source_pid
@@ -13,6 +15,7 @@ def iterate_on(what)
   sleep 1
   puts "Terminating the rest"
 
+  system "./dstatctl.sh", "stop"
   system "pkill", "-f", what
   Process.kill("TERM", sink_pid)
 

@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 
-def iterate_on(what)
+def iterate_on(what, seconds)
   sink_pid = spawn "./start-test-server.sh"
   sleep 1
   subject_pid = spawn "./strace-run.sh", what
   sleep 1
   system "./dstatctl.sh", "start", what
   sleep 1
-  source_pid = spawn "./send-test-data.sh"
+  source_pid = spawn "./send-test-data.sh", seconds
 
   Process.wait source_pid
   puts "Source terminated"
@@ -26,6 +26,8 @@ def iterate_on(what)
   sleep 1
 end
 
-iterate_on "tokio-01-check"
-iterate_on "tokio-compat-check"
-iterate_on "tokio-02-check"
+seconds = ARGV.first || "10"
+
+iterate_on "tokio-01-check", seconds
+iterate_on "tokio-compat-check", seconds
+iterate_on "tokio-02-check", seconds

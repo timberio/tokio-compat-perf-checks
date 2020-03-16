@@ -7,6 +7,7 @@ case "$CMD" in
   "start")
     FOR="$2"
 
+    truncate -s0 "dstat-$FOR.csv"
     dstat \
       --epoch \
       --cpu \

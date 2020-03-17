@@ -1,6 +1,5 @@
 /target
 
 /*.log
-/*.txt
-/*.csv
-/*.json
+
+/results

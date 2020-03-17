@@ -5,9 +5,9 @@ CMD="$1"
 
 case "$CMD" in
   "start")
-    FOR="$2"
+    FILE="$2"
 
-    truncate -s0 "dstat-$FOR.csv"
+    truncate -s0 "$FILE"
     dstat \
       --epoch \
       --cpu \
@@ -23,7 +23,7 @@ case "$CMD" in
       --tcp \
       --udp \
       --vm \
-      --output "dstat-$FOR.csv" \
+      --output "$FILE" \
       > /dev/null &
     ;;
   "stop")

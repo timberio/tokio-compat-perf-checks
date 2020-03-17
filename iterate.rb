@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 require 'fileutils'
 
+RESULTS_DIR = "results"
+
 def get_pid_children(target_pid)
   list = IO.popen("pgrep --parent=#{target_pid}").readlines
   list.map! { |line| line.chomp.to_i }
@@ -18,9 +20,9 @@ end
 def iterate_on(name, seconds, *argv)
   sink_pid = spawn "./start-test-server.sh"
   sleep 1
-  subject_pid = spawn "./strace-run.sh", name, *argv
+  subject_pid = spawn "./strace-run.sh", "#{RESULTS_DIR}/trace-#{name}.txt", *argv
   sleep 1
-  system "./dstatctl.sh", "start", name
+  system "./dstatctl.sh", "start", "#{RESULTS_DIR}/dstat-#{name}.csv"
   sleep 5 # warmup
   source_pid = spawn "./send-test-data.sh", seconds
 
@@ -38,13 +40,15 @@ ensure
   Process.kill("TERM", sink_pid)
   Process.waitpid sink_pid
 
-  FileUtils.cp "/tmp/tcp_test_server_summary.json", "tcp_test_server_summary-#{name}.json"
+  FileUtils.cp "/tmp/tcp_test_server_summary.json", "#{RESULTS_DIR}/tcp_test_server_summary-#{name}.json"
 
   puts "Ensuring everything is stopped"
   p Process.waitall
 end
 
 seconds = ARGV.first || "10"
+
+FileUtils.mkdir_p RESULTS_DIR
 
 iterate_on "tokio-01-check", seconds, "target/debug/tokio-01-check"
 iterate_on "tokio-compat-check", seconds, "target/debug/tokio-compat-check"

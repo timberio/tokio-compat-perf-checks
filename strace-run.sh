@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-PKG="$1"
+NAME="$1"; shift
 
-cargo build -p "$PKG"
-
-exec strace -c -o "trace-$PKG.txt" "target/debug/$PKG"
+exec strace -c -o "trace-$NAME.txt" "$@"

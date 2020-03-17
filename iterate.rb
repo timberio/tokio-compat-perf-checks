@@ -21,7 +21,7 @@ def iterate_on(name, seconds, *argv)
   subject_pid = spawn "./strace-run.sh", name, *argv
   sleep 1
   system "./dstatctl.sh", "start", name
-  sleep 1
+  sleep 5 # warmup
   source_pid = spawn "./send-test-data.sh", seconds
 
   Process.wait source_pid
